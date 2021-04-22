@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html' %} 
+{% block titulo %} URL SHORT {% endblock %} 
+
+{% block contenido %}
+<div class="row justify-content-md-center mb-3">
+    <div class="col-md-6 m-5">
+        <div class="card" >
+            <div class="card-header text-center">
+                Activacion
+            </div>
+            <div class="card-body">
+                <p> ¡Bienvenido! Gracias por registrarte. Siga este enlace para activar su cuenta: </p>
+                <p> <a href="{{ confirm_url }}"> {{confirm_url}} </a> </p>
+                <br>
+                <p> ¡Saludos! </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock%}

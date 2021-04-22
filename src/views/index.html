@@ -1,0 +1,79 @@
+{% extends 'layouts/base.html' %} 
+{% block titulo %} URL SHORT {% endblock %} 
+
+{% block contenido %}
+
+
+<div class="row justify-content-md-center mb-3">
+    <div class="col-md-6 m-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                
+                {% for category,message in messages %}
+                
+                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                    <strong>{{message}}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                {% endfor %}
+
+            {% endif %}
+            {% endwith %}
+        <div class="card" >
+            <div class="card-header text-center">
+                ACORTADOR DE URL
+            </div>
+            <div class="card-body">
+                <form class="form-control"  action="{{ url_for('index') }}" method="POST">
+                    <div class="form-group mb-3">
+                        <label for="nombre">Ingrese su Url</label>
+                        <input type="text" required class="form-control" id="acortar" name="acortar" value="{{url_corta}}">
+                    </div>
+                    
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary" href="#">Recortar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+    {% if session['usuario']  %}
+        <table class="table table-striped">
+            <thead>
+            <tr class="table-light">
+                <th>Id</th>
+                <th>Url Original</th>
+                <th>Url Corta</th>
+                <th >Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                {% for direccion in direcciones %}
+                <tr class="table-light">
+                    <td>{{ direccion[0] }}</td>
+                    <td>{{ direccion[1] }}</td>
+                    <td>{{ direccion[2] }}</td>
+                    <td >
+                        <form method="POST" action="{{url_for('actualizar_direcciones')}}" >
+                          <input type="hidden" value="{{direccion[0]}}" name="id" id="=id">
+                          <input  class="btn btn-success" type="submit" value="Editar">
+                        </form>
+                    </td>
+                    <td >
+                        <form action="{{ url_for('delete_direccion') }}" method="post">
+                            <input type="hidden" value="{{direccion[0]}}" name="id" id="=id">
+                            <input class="btn btn-danger" type="submit" value="Eliminar" onclick="return confirm('Deseas Eliminar?');">
+                          </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock%}
+
